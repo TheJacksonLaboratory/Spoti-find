@@ -1,0 +1,10 @@
+1. install conda
+2. open conda command prompt
+3. navigate to the vsa folder
+4. run the following commands:
+
+conda create -n vsa --file requirements_conda.txt
+
+conda activate vsa
+
+python -m pip install -r requirements_pip.txt
