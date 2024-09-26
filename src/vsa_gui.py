@@ -64,7 +64,7 @@ class MainWin(QWidget):
         '''
         super().__init__()
         self.vsa_processor = VsaProcessor()
-        self.version_string = "0.022"
+        self.version_string = "0.023"
         self.vol_cal_points = []  # list of (cm^2, uL) points
         self.volume_mapper = AreaVolumeMap()
         self.pathname = ""
@@ -97,6 +97,10 @@ class MainWin(QWidget):
         action_save_session.triggered.connect(self.save_session)
         action_load_session = file_menu.addAction("Load Session...")
         action_load_session.triggered.connect(self.load_session)
+
+        file_menu.addSeparator()
+        action_save_all = file_menu.addAction("Save All...")
+        action_save_all.triggered.connect(self.save_all)
 
         # Viewer
         self.viewer = VsaViewer()
@@ -758,13 +762,14 @@ class MainWin(QWidget):
         return msg_box.exec()
 
 
-    def save_sample_results(self):
+    def save_sample_results(self, filename=False):
         '''
         '''
-        file_tup = QFileDialog.getSaveFileName(options=QFileDialog.Option.DontConfirmOverwrite)
-        filename = file_tup[0]
         if not filename:
-            return False
+            file_tup = QFileDialog.getSaveFileName(options=QFileDialog.Option.DontConfirmOverwrite)
+            filename = file_tup[0]
+            if not filename:
+                return False
         sample_id = self.line_edit_sample_id.text()
         mouse_id = self.line_edit_mouse_id.text()
         heading_list = ['void_class','img_x', 'img_y', 'img_w', 'img_h',
@@ -805,15 +810,16 @@ class MainWin(QWidget):
         return True
 
 
-    def save_summary_results(self):
+    def save_summary_results(self, filename=False):
         '''
         The result for the current sample is saved in CSV format.  The result is combined with any
         other results when the selected file exists.
         '''
-        file_tup = QFileDialog.getSaveFileName(options=QFileDialog.Option.DontConfirmOverwrite)
-        filename = file_tup[0]
         if not filename:
-            return False
+            file_tup = QFileDialog.getSaveFileName(options=QFileDialog.Option.DontConfirmOverwrite)
+            filename = file_tup[0]
+            if not filename:
+                return False
         csv_data = []
         try:
             with open(filename) as csv_file:
@@ -955,11 +961,14 @@ class MainWin(QWidget):
         return True
 
 
-    def save_session(self):
-        file_tup = QFileDialog.getSaveFileName()
-        filename = file_tup[0]
+    def save_session(self, filename=False):
+
         if not filename:
-            return False
+            file_tup = QFileDialog.getSaveFileName()
+            filename = file_tup[0]
+            if not filename:
+                return False
+
         json_dict = {}
         json_dict['version'] = self.version_string
         json_dict['image_pathname'] = self.pathname
@@ -1045,7 +1054,27 @@ class MainWin(QWidget):
             self.viewer.set_spot_annotation(self.vsa_processor.spot_polygon_properties)
         self.update_measurements()
         return True
+    
+    def save_all(self):
+        """
+        The purpose of this function is to combine the save session, save summary, and save sample
+        functionalities in an effort to improve the user experience.  the file names should be
+        automatically generated.
+        """
+        base_dir = os.path.dirname(self.pathname) if self.pathname else os.getcwd()
+        # 1. save the session
+        session_filename = "session.json"
+        self.save_session(filename=os.path.join(base_dir, session_filename))
+        # 2. save the summary
+        summary_filename = "summary.csv"
+        self.save_summary_results(os.path.join(base_dir, summary_filename))
+        # 3. save the sample
 
+        mouse_id = self.line_edit_mouse_id.text()
+        sample_id = self.line_edit_sample_id.text()
+
+        sample_filename = f"{mouse_id}_{sample_id}_sample.csv"
+        self.save_sample_results(os.path.join(base_dir, sample_filename))
 
 
 def main():
