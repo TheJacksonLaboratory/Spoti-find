@@ -1076,6 +1076,11 @@ class MainWin(QWidget):
         sample_filename = f"{mouse_id}_{sample_id}_sample.csv"
         self.save_sample_results(os.path.join(base_dir, sample_filename))
 
+        message = "Files saved to:\n"
+        message += f"{base_dir}\n"
+        # Show the message box
+        self.message_box(message)
+
 
 def main():
     """
