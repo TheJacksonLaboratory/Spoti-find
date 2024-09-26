@@ -1,5 +1,9 @@
 ## VSA - Voiding Spot Analysis
 
+# Version
+0.2.3
+ + Feature added: Save all functionality.
+
 # Intallation
 This application requires the following:
 * Python 3.3 or later
@@ -12,7 +16,7 @@ After you install <a href="https://www.python.org/downloads/">Python</a>, the co
 ```
 python -m venv .env_vsa
 source .env_vsa/bin/activate
-pip install -r .\requirements_pip.txt
+pip install -r requirements_pip.txt
 ```
 
 # Running
