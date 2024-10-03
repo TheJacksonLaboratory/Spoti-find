@@ -5,6 +5,7 @@ authors: Jim Peterson
 """
 import math
 import numpy as np
+import cv2
 
 def contour_to_polygon(contour):
     """
