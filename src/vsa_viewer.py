@@ -29,7 +29,7 @@ class VsaViewer(QGroupBox):
         self.checkbox_spots.stateChanged.connect(self.checkbox_state_change_spots)
         self.checkbox_spots.setChecked(True)
         layout_001.addWidget(self.checkbox_spots)
-        self.radio_selection_mode_rect = QRadioButton("rectange")
+        self.radio_selection_mode_rect = QRadioButton("rectangle")
         self.radio_selection_mode_poly = QRadioButton("polygon")
 
         self.radio_selection_mode_rect.toggled.connect(self.selction_mode_change)
