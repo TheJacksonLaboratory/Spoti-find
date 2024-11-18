@@ -72,7 +72,7 @@ class MainWin(QWidget):
 
         # Main layout
         self.setGeometry(100,100,1200,600)
-        self.setWindowTitle(f"Voided Spot Analysis (VSA) - version {self.version_string}")
+        self.setWindowTitle(f"Spotifind - version {self.version_string}")
         hbox_main = QHBoxLayout()
         self.setLayout(hbox_main)
 
