@@ -5,6 +5,7 @@ authors: Jim Peterson
 """
 import math
 import numpy as np
+import cv2
 
 def contour_to_polygon(contour):
     """
@@ -141,6 +142,18 @@ def circularity(polygon):
         return 0.0
     A = polygon_area(polygon)
     C = (4.0*math.pi*A)/(L*L)
+    return C
+
+def eccentricity(polygon):
+    '''
+    Computes the eccentricity of a given polygon
+    '''
+    cnt=polygon_to_contour(polygon)
+    if len(cnt)<5:
+        C=0.0
+    else:
+        (x,y),(ma,MA),angle = cv2.fitEllipse(cnt)
+        C = np.sqrt(1-ma**2/MA**2)
     return C
 
 

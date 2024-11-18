@@ -173,8 +173,8 @@ class VsaProcessor():
                 else:
                     poly_props['class'] = 'primary'
 
-            # circularity
-            poly_props['circularity'] = pt.circularity(polygon)
+            # eccentricity
+            poly_props['eccentricity'] = pt.eccentricity(polygon)
 
             # dist_to_edge_pix
             spot_mask = np.zeros(self.paper_mask.shape, dtype=np.uint8)

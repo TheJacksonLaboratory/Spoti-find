@@ -774,7 +774,7 @@ class MainWin(QWidget):
         mouse_id = self.line_edit_mouse_id.text()
         heading_list = ['void_class','img_x', 'img_y', 'img_w', 'img_h',
                         'perimeter_cm', 'area_cm2', 'volume_ul',
-                        'circularity', 'distance_to_edge']
+                        'eccentricity', 'distance_to_edge']
 
         csv_data = []
         csv_data.append(['sample_id', sample_id])
@@ -795,7 +795,7 @@ class MainWin(QWidget):
             perim_cm = poly_props['perimeter_cm']
             area_cm2 = poly_props['area_cm2']
             volume_ul = poly_props['volume_ul']
-            circ = poly_props['circularity']
+            circ = poly_props['eccentricity']
             dist_cm = poly_props['ave_dist_to_edge_cm']
             csv_data.append([vc, f'{x}', f'{y}', f'{w}', f'{h}', f'{perim_cm:.2f}', f'{area_cm2:.2f}', f'{volume_ul:.2f}', f'{circ:.4f}', f'{dist_cm:.2f}'])
 
@@ -834,9 +834,9 @@ class MainWin(QWidget):
                          'primary_count', 'micro_count', 'nano_count', 'total_count',
                          'primary_volume_ul', 'micro_volume_ul', 'nano_volume_ul', 
                          'primary_ave_volume_ul', 'micro_ave_volume_ul', 'nano_ave_volume_ul', 
-                         'primary_ave_circularity', 'micro_ave_circularity', 'nano_ave_circularity', 
+                         'primary_ave_eccentricity', 'micro_ave_eccentricity', 'nano_ave_eccentricity', 
                          'primary_ave_distance_to_edge', 'micro_ave_distance_to_edge', 'nano_ave_distance_to_edge', 
-                         'total_volume_ul', 'ave_volume', 'ave_circularity', 'ave_distance_to_edge']]
+                         'total_volume_ul', 'ave_volume', 'ave_eccentricity', 'ave_distance_to_edge']]
 
         sample_id = self.line_edit_sample_id.text()
         mouse_id = self.line_edit_mouse_id.text()
@@ -872,19 +872,19 @@ class MainWin(QWidget):
             if poly_props['class'] == 'nano':
                 nano_count += 1
                 vol_nano += volume_ul
-                circ_nano += poly_props['circularity']
+                circ_nano += poly_props['eccentricity']
                 dist_nano += poly_props['ave_dist_to_edge_cm']
             elif poly_props['class'] == 'micro':
                 micro_count += 1
                 vol_micro += volume_ul
-                circ_micro += poly_props['circularity']
+                circ_micro += poly_props['eccentricity']
                 dist_micro += poly_props['ave_dist_to_edge_cm']
             elif poly_props['class'] == 'primary':
                 primary_count += 1
                 vol_primary += volume_ul
-                circ_primary += poly_props['circularity']
+                circ_primary += poly_props['eccentricity']
                 dist_primary += poly_props['ave_dist_to_edge_cm']
-        ave_circularity = (circ_primary + circ_micro + circ_nano)/(primary_count + micro_count + nano_count)
+        ave_eccentricity = (circ_primary + circ_micro + circ_nano)/(primary_count + micro_count + nano_count)
         ave_dist = (dist_primary + dist_micro + dist_nano)/(primary_count + micro_count + nano_count)
         vol_total = vol_primary + vol_micro + vol_nano
         if primary_count==0:
@@ -934,8 +934,8 @@ class MainWin(QWidget):
         record.append(f"{ave_micro_vol:.3f}")                   # micro_ave_volume_ul
         record.append(f"{ave_nano_vol:.3f}")
 
-        record.append(f"{ave_primary_circ:.3f}")              # primary_ave_circularity_ul
-        record.append(f"{ave_micro_circ:.3f}")                  # micro_ave_circularity_ul
+        record.append(f"{ave_primary_circ:.3f}")              # primary_ave_eccentricity_ul
+        record.append(f"{ave_micro_circ:.3f}")                  # micro_ave_eccentricity_ul
         record.append(f"{ave_nano_circ:.3f}")
 
         record.append(f"{ave_primary_dist:.3f}")              # primary_ave_distance_to_edge_ul
@@ -944,7 +944,7 @@ class MainWin(QWidget):
 
         record.append(f"{vol_total:.1f}")                               # total_volume_ul
         record.append(f"{vol_total/(primary_count+micro_count+nano_count):.3f}")   # total_ave_volume_ul
-        record.append(f"{ave_circularity:.3f}")                         # ave_circularity
+        record.append(f"{ave_eccentricity:.3f}")                         # ave_eccentricity
         record.append(f"{ave_dist:.1f}")                                # ave_distance_to_edge
 
         csv_data.append(record)
