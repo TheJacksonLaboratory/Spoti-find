@@ -72,7 +72,7 @@ class MainWin(QWidget):
 
         # Main layout
         self.setGeometry(100,100,1200,600)
-        self.setWindowTitle(f"Voided Spot Analysis (VSA) - version {self.version_string}")
+        self.setWindowTitle(f"Spotifind - version {self.version_string}")
         hbox_main = QHBoxLayout()
         self.setLayout(hbox_main)
 
@@ -1061,17 +1061,16 @@ class MainWin(QWidget):
         functionalities in an effort to improve the user experience.  the file names should be
         automatically generated.
         """
+        mouse_id = self.line_edit_mouse_id.text()
+        sample_id = self.line_edit_sample_id.text()
         base_dir = os.path.dirname(self.pathname) if self.pathname else os.getcwd()
         # 1. save the session
-        session_filename = "session.json"
+        session_filename = f"{mouse_id}_session.json"
         self.save_session(filename=os.path.join(base_dir, session_filename))
         # 2. save the summary
         summary_filename = "summary.csv"
         self.save_summary_results(os.path.join(base_dir, summary_filename))
         # 3. save the sample
-
-        mouse_id = self.line_edit_mouse_id.text()
-        sample_id = self.line_edit_sample_id.text()
 
         sample_filename = f"{mouse_id}_{sample_id}_sample.csv"
         self.save_sample_results(os.path.join(base_dir, sample_filename))

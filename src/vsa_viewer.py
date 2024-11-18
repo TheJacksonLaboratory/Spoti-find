@@ -29,7 +29,7 @@ class VsaViewer(QGroupBox):
         self.checkbox_spots.stateChanged.connect(self.checkbox_state_change_spots)
         self.checkbox_spots.setChecked(True)
         layout_001.addWidget(self.checkbox_spots)
-        self.radio_selection_mode_rect = QRadioButton("rectange")
+        self.radio_selection_mode_rect = QRadioButton("rectangle")
         self.radio_selection_mode_poly = QRadioButton("polygon")
 
         self.radio_selection_mode_rect.toggled.connect(self.selction_mode_change)
@@ -176,9 +176,9 @@ class VsaView(QGraphicsView):
         self.selection_color = QColor(0, 255, 255)
         self.paper_annotation_color = QColor(240, 240, 0)
         self.spot_annotation_color = QColor(0, 255, 0)
-        self.micro_spot_annotation_color = QColor(198, 132, 227)
-        self.nano_spot_annotation_color = QColor(235, 146, 77)
-        self.junk_spot_annotation_color = QColor(235, 0, 235)
+        self.micro_spot_annotation_color = QColor(156, 39, 176)
+        self.nano_spot_annotation_color = QColor(255, 87, 34)
+        self.junk_spot_annotation_color = QColor(244, 143, 177)
         self.candidate_annotation_color = QColor(0, 200, 200)
 
         self.brightness = 0.0
