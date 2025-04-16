@@ -35,7 +35,7 @@ pip install -r requirements_pip.txt
 
 ### Option 2: Using Miniforge3 (conda-forge channel)
 
-This method is compliant with your organization's allowed environment policies.
+This method is compliant with JAX's allowed environment policies.
 
 **Step 1: Install Miniforge3**
 
