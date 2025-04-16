@@ -21,8 +21,15 @@ pip install -r requirements_pip.txt
 
 # Running
 To run the application the Python virtual environment must be activated at the start of the session with the first command below.  The application is then run with the second command below.
+
+Mac
 ```
 source .env_vsa/bin/activate
 python src/vsa_gui.py
 ```
 
+Windows
+```
+.env_vsa\Scripts\Activate.ps1
+python src/vsa_gui.py
+```

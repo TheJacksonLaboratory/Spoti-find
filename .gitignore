@@ -52,8 +52,5 @@ Thumbs.db
 .venv*
 .env*
 
-# program outputs
-session*
-summary*
-*_sample.csv
+IGNORE_*
 
