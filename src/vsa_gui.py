@@ -64,7 +64,7 @@ class MainWin(QWidget):
         '''
         super().__init__()
         self.vsa_processor = VsaProcessor()
-        self.version_string = "0.023"
+        self.version_string = "0.024"
         self.vol_cal_points = []  # list of (cm^2, uL) points
         self.volume_mapper = AreaVolumeMap()
         self.pathname = ""
