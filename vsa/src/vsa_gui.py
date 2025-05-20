@@ -48,10 +48,10 @@ from PyQt6.QtWidgets import (
     QLineEdit,
     QMessageBox,
     QMenuBar)
-from vsa import VsaProcessor
-from vsa_viewer import VsaViewer, VsaView
-import polygon_tools as pt
-from area_volume_map import AreaVolumeMap
+from .vsa import VsaProcessor
+from .vsa_viewer import VsaViewer, VsaView
+from . import polygon_tools as pt
+from .area_volume_map import AreaVolumeMap
 
 
 class MainWin(QWidget):
