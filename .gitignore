@@ -54,3 +54,6 @@ Thumbs.db
 
 IGNORE_*
 
+#caches
+_MACOSX
+_pycache_
