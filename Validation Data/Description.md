@@ -1,0 +1,1 @@
+These Images are shared to be used to confirm multiple users are making similar choices when subjective calls might be needed in identifying spots using Spoti-find.  We suggest that the data be checked using Interclass Correlation coefficents.  
