@@ -6,7 +6,7 @@ from PyQt6.QtCore import Qt, QPointF
 from PyQt6.QtGui import QPixmap, QImage, QPen, QColor, QPolygonF
 from PyQt6.QtWidgets import (QGraphicsRectItem, QGraphicsScene, QGraphicsView, QGraphicsPixmapItem,
     QGroupBox, QVBoxLayout, QHBoxLayout, QCheckBox, QDoubleSpinBox, QLabel, QSlider, QRadioButton)
-import polygon_tools as pt
+from . import polygon_tools as pt
 
 class VsaViewer(QGroupBox):
 

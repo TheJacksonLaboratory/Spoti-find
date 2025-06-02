@@ -37,7 +37,7 @@ Thumbs.db
 
 # Applications
 *.app
-*.exe
+
 *.war
 
 # Large media files
@@ -54,3 +54,6 @@ Thumbs.db
 
 IGNORE_*
 
+#caches
+_MACOSX
+__pycache__

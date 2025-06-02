@@ -11,7 +11,7 @@ import os
 import math
 import numpy as np
 import cv2
-import polygon_tools as pt
+from . import polygon_tools as pt
 
 class VsaProcessor():
 
