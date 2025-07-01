@@ -2,8 +2,8 @@
 requires = ["hatchling >= 1.26"]
 build-backend = "hatchling.build"
 [project]
-name = "void-spot-assay"
-version = "2025.0.0a1"
+name = "Spoti-Find"
+version = "0.1.0"
 dependencies = [
     "numpy==1.24.2",
     "opencv-python==4.7.0.72",
@@ -13,7 +13,22 @@ dependencies = [
 ]
 requires-python = "== 3.11.11"
 readme = "readme.md"
-descripion = "VSA PyApp Test"
-authors = [{name = "TEST"}]
+descripion = "Spoti-find is a robust analysis tool that allows easy and flexible quantification of Void Spot Assays (VSAs)."
+authors = [
+    {name = "Cara C. Hardy"},
+    {name = "Susan Sheehan"},
+    {name = "Jim Peterson"},
+    {name = "Garry Churchill"},
+    {name = "Stephen J. Crocker"},
+    {name = "Zaenab S. Dhari"},
+    {name = "Warren G. Hill"},
+    {name = "Matt Mahoney", email = "matt.mahoney@jax.org"},
+    {name = "Seamus Mawe"},
+    {name = "Will Ricke"},
+    {name = "Nick Sebasco"},
+    {name = "Abigale Brackett"},
+    {name = "Kevin Koegel"},
+    {name = "Samantha Spellacy"},
+    {name = "Ron Korstanje"}]
 [tool.hatch.build.targets.wheel]
-packages = ["vsa"]
+packages = ["spoti_find"]

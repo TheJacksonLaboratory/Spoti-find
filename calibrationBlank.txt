@@ -1,9 +1,0 @@
-{
-    "pixels_per_cm": 58.8,
-    "volume_calibration_data": [
-        [
-            0.000000000006,
-            0.000000000006
-        ]
-    ]
-}

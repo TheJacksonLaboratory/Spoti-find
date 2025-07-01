@@ -7,29 +7,20 @@
 ## 📌 Installation
 Your environment policy allows installation either using Python’s built-in virtual environment (`venv`) with pip or **Miniforge3** (with channels: `conda-forge`, `bioconda`). Both methods are described below.
 
-### Option 1: Using Python's built-in venv + pip (recommended)
+### Option 1: PyApp Binaries (recomended)
 
-1. **Install Python 3.11**  
-   Download from the official website: [python.org](https://www.python.org/downloads/).
+Included in this repo are binaries packaged with [PyApp](https://ofek.dev/pyapp/latest/) that will automaticaly install a virtual enviroment and launch spotifind when executed.
 
-2. **Create & Activate Virtual Environment**  
+Windows: Spoti-Find.exe
+MacOS: Spoti-Find.command
+Linux: Spoti-Find (no extension)
 
-**macOS/Linux:**
+This may require adding execution permisions in linux
 ```bash
-python -m venv .env_vsa
-source .env_vsa/bin/activate
+chmod +x ./Spoti-Find
 ```
 
-**Windows:**
-```powershell
-python -m venv .env_vsa
-.env_vsa\Scripts\Activate.ps1
-```
-
-3. **Install Dependencies (via pip)**  
-```bash
-pip install -r requirements_pip.txt
-```
+These are unsigned binaries and may initiate a system warning that needs to be bypassed. If you are uncomfortable or unable to do so (e.g. lacking the required privileges) you can follow instalation options 2 or 3 bellow and see the "Running the Application" section to launch the program.
 
 ---
 
@@ -53,22 +44,41 @@ Download and run the executable installer from above link, following on-screen i
 
 **Step 2: Create and activate conda environment**
 ```bash
-conda create -n vsa python=3.11 numpy=1.24.2 -c conda-forge
-conda activate vsa
+mamba create -f .\spoti_find_enviroment.yaml
 ```
 
-**Step 3: Install remaining dependencies via pip**
-```bash
-pip install -r requirements_pip.txt
-```
 
 **Important**: Confirm your conda environment is correctly set to use only `conda-forge`:
 
 ```bash
-conda config --remove channels defaults
-conda config --add denylist_channels defaults
+mamba config --remove channels defaults
+mamba config --add denylist_channels defaults
 ```
 
+---
+### Option 3: Using Python's built-in venv + pip 
+
+1. **Install Python 3.11**  
+   Download from the official website: [python.org](https://www.python.org/downloads/).
+
+2. **Create & Activate Virtual Environment**  
+
+**macOS/Linux:**
+```bash
+python -m venv .env_vsa
+source .env_vsa/bin/activate
+```
+
+**Windows:**
+```powershell
+python -m venv .env_vsa
+.env_vsa\Scripts\Activate.ps1
+```
+
+3. **Install Dependencies (via pip)**  
+```bash
+pip install -r requirements_pip.txt
+```
 ---
 
 ## 🚀 Running the Application
@@ -77,10 +87,10 @@ After activating your selected virtual environment:
 
 **macOS/Linux:**
 ```bash
-python src/vsa_gui.py
+python -m spoti_find
 ```
 
 **Windows:**
 ```powershell
-python src/vsa_gui.py
+python -m spoti_find
 ```
