@@ -884,9 +884,16 @@ class MainWin(QWidget):
                 vol_primary += volume_ul
                 circ_primary += poly_props['circularity']
                 dist_primary += poly_props['ave_dist_to_edge_cm']
-        ave_circularity = (circ_primary + circ_micro + circ_nano)/(primary_count + micro_count + nano_count)
-        ave_dist = (dist_primary + dist_micro + dist_nano)/(primary_count + micro_count + nano_count)
-        vol_total = vol_primary + vol_micro + vol_nano
+        if primary_count + micro_count + nano_count==0:
+            ave_circularity=np.nan
+            ave_dist=np.nan
+            vol_total=0
+            ave_vol=np.nan
+        else:
+            ave_circularity = (circ_primary + circ_micro + circ_nano)/(primary_count + micro_count + nano_count)
+            ave_dist = (dist_primary + dist_micro + dist_nano)/(primary_count + micro_count + nano_count)
+            vol_total = vol_primary + vol_micro + vol_nano
+            ave_vol= vol_total/(primary_count + micro_count + nano_count)
         if primary_count==0:
             ave_primary_vol=np.nan
             ave_primary_circ=np.nan
@@ -943,7 +950,7 @@ class MainWin(QWidget):
         record.append(f"{ave_nano_dist:.3f}")
 
         record.append(f"{vol_total:.1f}")                               # total_volume_ul
-        record.append(f"{vol_total/(primary_count+micro_count+nano_count):.3f}")   # total_ave_volume_ul
+        record.append(f"{ave_vol:.3f}")   # total_ave_volume_ul
         record.append(f"{ave_circularity:.3f}")                         # ave_circularity
         record.append(f"{ave_dist:.1f}")                                # ave_distance_to_edge
 
