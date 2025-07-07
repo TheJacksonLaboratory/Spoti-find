@@ -929,9 +929,9 @@ class MainWin(QWidget):
         record.append(f"{min_void_size_ul:.1f}") 
 
         record.append(str(primary_count))                               # primary_count
-        record.append(str(micro_count))   
-        record.append(str(nano_count))                                 # micro_count
-        record.append(str(primary_count+micro_count))                   # total_count
+        record.append(str(micro_count))                                 # micro_count
+        record.append(str(nano_count))                                  # nano_count
+        record.append(str(primary_count+micro_count+nano_count))        # total_count
 
         record.append(f"{vol_primary:.1f}")                             # primary_volume_ul
         record.append(f"{vol_micro:.1f}")                               # micro_volume_ul
