@@ -51,6 +51,15 @@ class VsaViewer(QGroupBox):
         layout_002.addWidget(QLabel("brightness:"))
         layout_002.addWidget(self.spinbox_brightness)
 
+        self.spinbox_line_width = QDoubleSpinBox()
+        self.spinbox_line_width.setToolTip("Increase line thickness")
+        self.spinbox_line_width.valueChanged[float].connect(self.eq_change)
+        self.spinbox_line_width.setRange(0.0, 1.0)
+        self.spinbox_line_width.setValue(0.0)
+        self.spinbox_line_width.setSingleStep(0.01)
+        layout_002.addWidget(QLabel("line width:"))
+        layout_002.addWidget(self.spinbox_line_width)
+
         self.slider_scale = QSlider(Qt.Orientation.Horizontal)
         self.slider_scale.setMinimum(0)
         self.slider_scale.setMaximum(1000)
