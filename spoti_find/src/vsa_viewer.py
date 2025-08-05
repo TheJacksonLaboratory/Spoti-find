@@ -51,6 +51,15 @@ class VsaViewer(QGroupBox):
         layout_002.addWidget(QLabel("brightness:"))
         layout_002.addWidget(self.spinbox_brightness)
 
+        self.spinbox_line_width = QDoubleSpinBox()
+        self.spinbox_line_width.setToolTip("Increase line thickness")
+        self.spinbox_line_width.valueChanged[float].connect(self.eq_change_line_width)
+        self.spinbox_line_width.setRange(1.0, 10.0)
+        self.spinbox_line_width.setValue(0.0)
+        self.spinbox_line_width.setSingleStep(0.5)
+        layout_002.addWidget(QLabel("line width:"))
+        layout_002.addWidget(self.spinbox_line_width)
+
         self.slider_scale = QSlider(Qt.Orientation.Horizontal)
         self.slider_scale.setMinimum(0)
         self.slider_scale.setMaximum(1000)
@@ -89,6 +98,10 @@ class VsaViewer(QGroupBox):
     def eq_change(self, value):
         """ Called when the user changes the image brightness/contrast. """
         self.view.set_brightness(float(self.spinbox_brightness.value()))
+
+    def eq_change_line_width(self, value):
+        """ Called when the user changes the segmentation line width. """
+        self.view.set_line_width(float(self.spinbox_line_width.value()))
 
     def checkbox_state_change_paper(self, value):
         """ Called when the user toggles the display of the paper mask. """
@@ -182,8 +195,18 @@ class VsaView(QGraphicsView):
         self.candidate_annotation_color = QColor(0, 200, 200)
 
         self.brightness = 0.0
+
         self.view_scale = 1.0
         self.scale_previous = 1.0
+
+        # NOTE: the way this code handles line width changing with view scale is
+        # not ideal.
+        self.normalize_line_width_by_scale = True
+
+        self.line_width = 1.0
+        self.selection_line_width = 1.0
+        self.paper_line_width = 1.0
+
         self.selection_anchor = [-1, -1]
         self.selection = [-1, -1, 0, 0]
         self.selection_rect = None
@@ -406,15 +429,18 @@ class VsaView(QGraphicsView):
 
         self.selection = [-1, -1, 0, 0]
         self.selection_rect = QGraphicsRectItem(-1, -1, 0, 0)
-        self.selection_rect.setPen(QPen(self.selection_color, 1.0/self.view_scale))
+        self.selection_rect.setPen(
+            QPen(self.selection_color, self.selection_line_width/self.view_scale)
+        )
         self.selection_rect.setZValue(4)
         self.scene.addItem(self.selection_rect)
 
         self.selection_poly_points = []
         qpoly = QPolygonF()
-        pen = QPen(self.selection_color, 1.0/self.view_scale)
         self.selection_poly = self.scene.addPolygon(qpoly)
-        self.selection_poly.setPen(QPen(self.selection_color, 1.0/self.view_scale))
+        self.selection_poly.setPen(
+            QPen(self.selection_color, self.selection_line_width/self.view_scale)
+        )
         self.selection_poly.setZValue(4)
 
         self.paper_polygon_items = []
@@ -433,7 +459,8 @@ class VsaView(QGraphicsView):
             return
         self._clear_paper_polygons()
 
-        pen = QPen(self.paper_annotation_color, 1.0/self.view_scale)
+        # Thickness of paper outline
+        pen = QPen(self.paper_annotation_color, self.paper_line_width/self.view_scale)
         for poly in paper_polygons:
             qpoly = QPolygonF()
             for point in poly:
@@ -456,10 +483,10 @@ class VsaView(QGraphicsView):
             return
         self._clear_spot_polygons()
         self._clear_candidate_polygons()
-        pen_primary = QPen(self.spot_annotation_color, 1.0/self.view_scale)
-        pen_micro = QPen(self.micro_spot_annotation_color, 1.0/self.view_scale)
-        pen_nano = QPen(self.nano_spot_annotation_color, 1.0/self.view_scale)
-        pen_junk = QPen(self.junk_spot_annotation_color, 1.0/self.view_scale)
+        pen_primary = QPen(self.spot_annotation_color, self.line_width)
+        pen_micro = QPen(self.micro_spot_annotation_color, self.line_width)
+        pen_nano = QPen(self.nano_spot_annotation_color, self.line_width)
+        pen_junk = QPen(self.junk_spot_annotation_color, self.line_width)
         for props in spot_polygons:
             poly = props['points']
             if props['class'] == 'junk':
@@ -498,7 +525,7 @@ class VsaView(QGraphicsView):
         if self.scene is None:
             return
         self._clear_candidate_polygons()
-        pen = QPen(self.candidate_annotation_color, 1.0/self.view_scale)
+        pen = QPen(self.candidate_annotation_color, self.line_width)
         for poly in candidate_polygons:
             qpoly = QPolygonF()
             for point in poly:
@@ -513,25 +540,25 @@ class VsaView(QGraphicsView):
         self.scale((1/self.view_scale), (1/self.view_scale))
         self.view_scale = view_scale
         self.scale(self.view_scale, self.view_scale)
-        pen = QPen(self.paper_annotation_color, 1.0/view_scale)
+        pen = QPen(self.paper_annotation_color, self.paper_line_width/view_scale)
         for item in self.paper_polygon_items:
             item.setPen(pen)
-        pen = QPen(self.candidate_annotation_color, 1.0/view_scale)
+        pen = QPen(self.candidate_annotation_color, self.line_width)
         for item in self.candidate_polygon_items:
             item.setPen(pen)
-        pen1 = QPen(self.spot_annotation_color, 1.0/view_scale)
+        pen1 = QPen(self.spot_annotation_color, self.line_width)
         for item in self.spot_polygon_items:
             item.setPen(pen1)
-        pen2 = QPen(self.micro_spot_annotation_color, 1.0/self.view_scale)
+        pen2 = QPen(self.micro_spot_annotation_color, self.line_width)
         for item in self.micro_spot_polygon_items:
             item.setPen(pen2)
-        pen3 = QPen(self.nano_spot_annotation_color, 1.0/self.view_scale)
+        pen3 = QPen(self.nano_spot_annotation_color, self.line_width)
         for item in self.nano_spot_polygon_items:
             item.setPen(pen3)
-        pen4 = QPen(self.junk_spot_annotation_color, 1.0/self.view_scale)
+        pen4 = QPen(self.junk_spot_annotation_color, self.line_width)
         for item in self.junk_spot_polygon_items:
             item.setPen(pen4)
-        pen5 = QPen(self.selection_color, 1.0/self.view_scale)
+        pen5 = QPen(self.selection_color, self.selection_line_width/self.view_scale)
         if self.selection_poly is not None:
             self.selection_poly.setPen(pen5)
         if self.selection_rect is not None:
@@ -550,6 +577,16 @@ class VsaView(QGraphicsView):
         if self.image is None:
             return
         if self.img_item is None:
+            return
+        self._add_image_to_scene()
+        return
+    
+    def set_line_width(self, val):
+        if self.normalize_line_width_by_scale:
+            self.line_width = val / self.view_scale
+        else:
+            self.line_width = val
+        if self.image is None or self.img_item is None:
             return
         self._add_image_to_scene()
         return
