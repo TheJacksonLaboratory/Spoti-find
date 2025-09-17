@@ -1,4 +1,4 @@
-## VSA - Voiding Spot Analysis
+## Spoti-find
 
 ### Version
 0.024  
